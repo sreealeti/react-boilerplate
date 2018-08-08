@@ -12,6 +12,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    height: 430,
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
   },
   appBar: {
     position: 'absolute',
@@ -22,6 +27,12 @@ const styles = theme => ({
     position: 'relative',
     width: 200,
     zIndex: 1,
+  },
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    minWidth: 0, // So the Typography noWrap works
   },
   toolbar: theme.mixins.toolbar,
   menuButton: {
@@ -63,6 +74,10 @@ class  NavBar extends Component {
           <div className={classes.toolbar} />
           <MenuItem>Home</MenuItem>
         </Drawer>
+        <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Typography>{'You think water moves fast? You should see ice.'}</Typography>
+      </main>
       </div>
     )
   }
