@@ -24,3 +24,15 @@ yarn-error.log*
 *.swn
 *.swm
 *.swl
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+backend_api/log/*
+backend_api/tmp/*
+!/log/.keep
+!/tmp/.keep
+.env
+*/*.swp
+# Ignore Byebug command history file.
+.byebug_history
