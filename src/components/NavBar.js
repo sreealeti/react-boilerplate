@@ -1,6 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Login from './Login';
+import { logoutUser } from '../actions/authentication';
+
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,6 +13,10 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 
 const drawerWidth = 200;
@@ -43,6 +51,9 @@ const styles = theme => ({
   },
   hide: {
     display: 'none',
+  },
+  flex: {
+    flexGrow: 1,
   },
   drawerPaper: {
     zIndex: 1,
@@ -89,10 +100,25 @@ class NavBar extends React.Component {
     });
   };
 
-  render() {
-    const { classes } = this.props;
+  onLogout = e => {
+        e.preventDefault();
+        this.props.logoutUser(this.props.history);
+  };
+  handleMenu = e => {
+    this.setState({ anchorEl: e.currentTarget });
+  };
 
-    return (
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  render() {
+    const {isAuthenticated, user} = this.props.auth;
+    const { classes } = this.props;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    const barLinks = (
       <div className={classes.root}>
         <AppBar
           position="absolute"
@@ -107,9 +133,36 @@ class NavBar extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="title" color="inherit" className={classes.flex} noWrap>
               ReactApp
             </Typography>
+            <div>
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.onLogout.bind(this)}>Logout</MenuItem>
+                </Menu>
+              </div>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -128,12 +181,23 @@ class NavBar extends React.Component {
           <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
         </main>
       </div>
+    )
+
+    return (
+      <div>
+        {isAuthenticated ? barLinks : <Login /> }
+      </div>
     );
   }
 }
 
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
 
-export default withStyles(styles, { withTheme: true })(NavBar);
+export default connect(mapStateToProps, {logoutUser})(withStyles(styles, { withTheme: true })(NavBar));

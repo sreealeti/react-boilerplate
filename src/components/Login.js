@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/authentication';
+
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
@@ -55,13 +58,33 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const user = {
-      username: this.state.username,
-      password: this.state.password,
+      auth: {
+        username: this.state.username,
+        password: this.state.password,
+      }
     }
-    console.log(user);
+    this.props.loginUser(user);
+  }
+  componentDidMount() {
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push('/');
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated) {
+      this.props.history.push('/')
+    }
+    if(nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
   }
   render(){
+
     const { classes } = this.props;
+    const { errors } = this.state;
+
     return(
       <div className={classes.root}>
         <Card className={classes.card}>
@@ -69,6 +92,7 @@ class Login extends Component {
             label="Username"
             onChange={ this.handleChange('username') }
             value={this.state.username}
+            error={errors.error ? true : false }
           />
           <br/>
           <TextField className={classes.textField}
@@ -76,10 +100,11 @@ class Login extends Component {
             label="Password"
             onChange={ this.handleChange('password') }
             value={ this.state.password }
+            error={errors.error ? true : false }
           />
           <br/>
           <Button variant="contained" color="primary" className={classes.Button} onClick={ this.handleSubmit }>
-            Submit
+            Login
           </Button>
         </Card>
       </div>
@@ -91,6 +116,12 @@ class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
-
-export default withStyles(styles)(Login);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+})
+export default connect(mapStateToProps, { loginUser })(withStyles(styles)(Login));
