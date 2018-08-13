@@ -12,6 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -29,6 +30,9 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
+  },
+  button: {
+    margin: theme.spacing.unit,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -82,6 +86,10 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+  iconSmall: {
+    fontSize: 20,
+    marginRight: theme.spacing.unit,
   },
   content: {
     flexGrow: 1,
@@ -137,14 +145,15 @@ class NavBar extends React.Component {
               ReactApp
             </Typography>
             <div>
-                <IconButton
+                <Button className={classes.button}
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit"
                 >
-                  <AccountCircle />
-                </IconButton>
+                  <AccountCircle className={classes.iconSmall}/>
+                  {user.username}
+                </Button>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
