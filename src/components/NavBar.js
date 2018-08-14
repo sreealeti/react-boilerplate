@@ -9,16 +9,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import SidebarItems from './sidebarData';
 
 const drawerWidth = 200;
 
@@ -139,7 +140,7 @@ class NavBar extends React.Component {
               onClick={this.toggleDrawer}
               className={classNames(classes.menuButton, this.state.open )}
             >
-              <MenuIcon />
+              { this.state.open ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex} noWrap>
               ReactApp
@@ -182,8 +183,7 @@ class NavBar extends React.Component {
           open={this.state.open}
         >
           <div className={classes.toolbar} />
-          <List>{mailFolderListItems}</List>
-          <List>{otherMailFolderListItems}</List>
+          <SidebarItems />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />

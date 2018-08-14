@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { loginUser } from '../actions/authentication';
 
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -13,7 +14,8 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
     position: 'absolute',
-    background: `linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3)`,
+    //background: `linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3)`,
+    background: '#1ddde8',
   },
 
   container: {
@@ -21,7 +23,7 @@ const styles = theme => ({
     top: '30%',
     left: '50%',
   },
-  card: {
+  paper: {
     position: 'absolute',
     minWidth: '25%',
     minHeight: '30%',
@@ -87,7 +89,10 @@ class Login extends Component {
 
     return(
       <div className={classes.root}>
-        <Card className={classes.card}>
+        <Paper className={classes.paper}>
+          <Typography variant="display1" >
+            ReactApp
+          </Typography>
           <TextField className={classes.textField}
             label="Username"
             onChange={ this.handleChange('username') }
@@ -106,7 +111,7 @@ class Login extends Component {
           <Button variant="contained" color="primary" className={classes.Button} onClick={ this.handleSubmit }>
             Login
           </Button>
-        </Card>
+        </Paper>
       </div>
 
     )
