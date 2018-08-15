@@ -9,7 +9,7 @@ class User < ApplicationRecord
         {
             sub: id,
             username: username,
-            role: "testing"
+            role: role
         }
    end
 end

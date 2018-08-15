@@ -4,8 +4,8 @@ export default store => {
   if (user) {
     // protected routes
     switch (user.role) {
-      case 'testing':
-        return ['/navbar', '/users'];
+      case 'admin':
+        return ['/navbar', '/users', '/'];
       case 'user_manager':
         return ['/users'];
       default:

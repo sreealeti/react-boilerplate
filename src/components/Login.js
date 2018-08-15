@@ -8,37 +8,43 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Avatar from '@material-ui/core/Avatar';
+
+import LockIcon from '@material-ui/icons/LockOutlined';
 
 const styles = theme => ({
   root: {
     height: '100%',
     width: '100%',
     position: 'absolute',
-    //background: `linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3)`,
-    background: '#1ddde8',
+    background: '#303158',
   },
-
-  container: {
-    position: 'absolute',
-    top: '30%',
-    left: '50%',
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
   paper: {
-    position: 'absolute',
-    minWidth: '25%',
-    minHeight: '30%',
-    top: '30%',
-    left: '35%',
-    textAlign: 'center',
+    marginTop: theme.spacing.unit * 24,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: '80%',
-    margin: '1%',
+  avatar: {
+    margin: theme.spacing.unit,
+    backgroundColor: theme.palette.secondary.main,
   },
-  Button: {
-    margin: 25,
+  form: {
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
   },
 });
 
@@ -89,7 +95,11 @@ class Login extends Component {
 
     return(
       <div className={classes.root}>
+      <main className={classes.layout}>
         <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockIcon />
+          </Avatar>
           <Typography variant="display1" >
             ReactApp
           </Typography>
@@ -108,11 +118,12 @@ class Login extends Component {
             error={errors.error ? true : false }
           />
           <br/>
-          <Button variant="contained" color="primary" className={classes.Button} onClick={ this.handleSubmit }>
+          <Button variant="contained" color="primary" className={classes.submit} onClick={ this.handleSubmit }>
             Login
           </Button>
         </Paper>
-      </div>
+      </main>
+    </div>
 
     )
   }
