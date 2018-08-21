@@ -41,6 +41,8 @@ class SidebarItems extends React.Component {
             </ListItemIcon>
             <ListItemText primary={menuitem.label} />
           </ListItem>
+        } else {
+          return true;
         }
       } else {
         if(canManage(menuitem.link)) {
@@ -62,12 +64,14 @@ class SidebarItems extends React.Component {
                       </ListItemIcon>
                       <ListItemText inset primary={submenuitem.label} />
                     </ListItem>
-                  }
-                })
-                }
-              </List>
-            </Collapse>
-          </div>
+                  } else {
+                    return true;
+                  }})}
+                </List>
+              </Collapse>
+            </div>
+        } else {
+          return true;
         }
       }
     });

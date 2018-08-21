@@ -4,57 +4,23 @@ import { connect } from 'react-redux';
 import { loginUser } from '../actions/authentication';
 
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-
-import LockIcon from '@material-ui/icons/LockOutlined';
-
-const styles = theme => ({
-  root: {
-    height: '100%',
-    width: '100%',
-    position: 'absolute',
-    background: '#303158',
-  },
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 24,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    marginTop: theme.spacing.unit,
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
-});
-
+import GridContainer from "material-kit-react/components/Grid/GridContainer";
+import GridItem from "material-kit-react/components/Grid/GridItem";
+import Button from "material-kit-react/components/CustomButtons/Button";
+import Card from "material-kit-react/components/Card/Card";
+import CardBody from "material-kit-react/components/Card/CardBody";
+import CardHeader from "material-kit-react/components/Card/CardHeader";
+import CardFooter from "material-kit-react/components/Card/CardFooter";
+import CustomInput from "material-kit-react/components/CustomInput/CustomInput";
+import loginPageStyle from "material-kit-react/assets/jss/material-kit-react/views/loginPage";
 
 class Login extends Component {
 
   state = {
     username: '',
     password: '',
-    errors: {}
+    errors: {},
+    cardAnimaton: "cardHidden"
   };
 
   handleChange = name => e => {
@@ -77,6 +43,12 @@ class Login extends Component {
     if(this.props.auth.isAuthenticated){
       this.props.history.push('/');
     }
+    setTimeout(
+      function() {
+        this.setState({ cardAnimaton: "" });
+      }.bind(this),
+      700
+    );
   }
   componentWillReceiveProps(nextProps) {
     if(nextProps.auth.isAuthenticated) {
@@ -94,36 +66,52 @@ class Login extends Component {
     const { errors } = this.state;
 
     return(
-      <div className={classes.root}>
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
-          <Typography variant="display1" >
-            ReactApp
-          </Typography>
-          <TextField className={classes.textField}
-            label="Username"
-            onChange={ this.handleChange('username') }
-            value={this.state.username}
-            error={errors.error ? true : false }
-          />
-          <br/>
-          <TextField className={classes.textField}
-            type="password"
-            label="Password"
-            onChange={ this.handleChange('password') }
-            value={ this.state.password }
-            error={errors.error ? true : false }
-          />
-          <br/>
-          <Button variant="contained" color="primary" className={classes.submit} onClick={ this.handleSubmit }>
-            Login
-          </Button>
-        </Paper>
-      </main>
-    </div>
+      <div>
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={12} md={4}>
+              <Card className={classes[this.state.cardAnimaton]}>
+                <form className={classes.form}>
+                  <CardHeader color="primary" className={classes.cardHeader}>
+                    <h4>ReactApp</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <CustomInput
+                      labelText="Username"
+                      id="username"
+                      inputProps={{
+                        type: "text"
+                      }}
+                      formControlProps={{
+                        fullWidth: true,
+                        error: errors.error ? true : false ,
+                        onChange: this.handleChange('username')
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Password"
+                      id="password"
+                      inputProps={{
+                        type: "password"
+                      }}
+                      formControlProps={{
+                        fullWidth: true,
+                        error: errors.error ? true : false ,
+                        onChange: this.handleChange('password')
+                      }}
+                    />
+                  </CardBody>
+                  <CardFooter className={classes.cardFooter}>
+                    <Button simple color="primary" size="lg" onClick={ this.handleSubmit }>
+                      Login
+                    </Button>
+                  </CardFooter>
+                </form>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </div>
+      </div>
 
     )
   }
@@ -140,4 +128,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors
 })
-export default connect(mapStateToProps, { loginUser })(withStyles(styles)(Login));
+export default connect(mapStateToProps, { loginUser })(withStyles(loginPageStyle)(Login));
