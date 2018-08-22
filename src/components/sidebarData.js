@@ -19,7 +19,16 @@ const styles = theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  iconSmall: {
+    color: "salmon",
+  },
+  itemTextSmall: {
+    color: "salmon",
+  },
   nested: {
+    "&:hover": {
+      background: "#00acc1",
+    },
     paddingLeft: theme.spacing.unit * 4,
   },
 });
@@ -35,11 +44,11 @@ class SidebarItems extends React.Component {
     const menuItems = menuData.map((menuitem) => {
       if(!menuitem.submenu) {
         if(canManage(menuitem.link)) {
-          return <ListItem button key={menuitem.id}>
-            <ListItemIcon>
+          return <ListItem button className={classes.nested} key={menuitem.id}>
+            <ListItemIcon className={classes.iconSmall}>
               {menuitem.icon}
             </ListItemIcon>
-            <ListItemText primary={menuitem.label} />
+            <ListItemText disableTypography className={classes.itemTextSmall} primary={menuitem.label} />
           </ListItem>
         } else {
           return true;
@@ -47,11 +56,11 @@ class SidebarItems extends React.Component {
       } else {
         if(canManage(menuitem.link)) {
           return <div key={menuitem.id}>
-            <ListItem button onClick={this.handleClick}>
-              <ListItemIcon>
+            <ListItem button className={classes.nested} onClick={this.handleClick}>
+              <ListItemIcon className={classes.iconSmall}>
                 {menuitem.icon}
               </ListItemIcon>
-              <ListItemText inset primary={menuitem.label} />
+              <ListItemText inset disableTypography className={classes.itemTextSmall} primary={menuitem.label} />
               {this.state.open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
@@ -59,10 +68,10 @@ class SidebarItems extends React.Component {
                 { menuitem.submenu.map((submenuitem) => {
                   if(canManage(submenuitem.link)) {
                     return <ListItem button className={classes.nested} key={submenuitem.id}>
-                      <ListItemIcon>
+                      <ListItemIcon className={classes.iconSmall}>
                         {submenuitem.icon}
                       </ListItemIcon>
-                      <ListItemText inset primary={submenuitem.label} />
+                      <ListItemText inset disableTypography className={classes.itemTextSmall} primary={submenuitem.label} />
                     </ListItem>
                   } else {
                     return true;

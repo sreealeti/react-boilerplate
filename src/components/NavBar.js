@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import GridContainer from "material-kit-react/components/Grid/GridContainer";
 
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -26,7 +27,6 @@ const drawerWidth = 200;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -37,6 +37,8 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    //backgroundColor: "#00acc1",
+    backgroundColor: "salmon",
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -64,6 +66,8 @@ const styles = theme => ({
     zIndex: 1,
     position: 'relative',
     whiteSpace: 'nowrap',
+    backgroundColor: "#2d2d2d",
+    boxShadow: "5px 0 10px -2px #888",
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -110,8 +114,8 @@ class NavBar extends React.Component {
   };
 
   onLogout = e => {
-        e.preventDefault();
-        this.props.logoutUser(this.props.history);
+    e.preventDefault();
+    this.props.logoutUser(this.props.history);
   };
   handleMenu = e => {
     this.setState({ anchorEl: e.currentTarget });
@@ -146,33 +150,33 @@ class NavBar extends React.Component {
               ReactApp
             </Typography>
             <div>
-                <Button className={classes.button}
-                  aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle className={classes.iconSmall}/>
-                  {user.username}
-                </Button>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.onLogout.bind(this)}>Logout</MenuItem>
-                </Menu>
-              </div>
+              <Button className={classes.button}
+                aria-owns={open ? 'menu-appbar' : null}
+                aria-haspopup="true"
+                onClick={this.handleMenu}
+                color="inherit"
+              >
+                <AccountCircle className={classes.iconSmall}/>
+                {user.username}
+              </Button>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.onLogout.bind(this)}>Logout</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -185,10 +189,9 @@ class NavBar extends React.Component {
           <div className={classes.toolbar} />
           <SidebarItems />
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
-        </main>
+        <GridContainer justify="center">
+
+        </GridContainer>
       </div>
     )
 
