@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import Layout from './components/Layout';
 import store from './config/store';
 import indexRoutes from "./routes/index";
 import jwt_decode from 'jwt-decode';
@@ -29,6 +30,7 @@ var hist = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store = { store }>
+    <Layout>
     <Router history={hist}>
       <Switch>
         {indexRoutes.map((prop, key) => {
@@ -36,5 +38,6 @@ ReactDOM.render(
         })}
       </Switch>
     </Router>
+  </Layout>
   </Provider>, document.getElementById('root'));
 registerServiceWorker();

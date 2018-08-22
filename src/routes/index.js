@@ -1,11 +1,9 @@
-import Home from './../components/Home';
 import Login from './../components/Login';
-import NavBar from './../components/NavBar';
+import Test from './../components/Test';
 
 var indexRoutes = [
   { path: "/login", name: "Login", component: Login },
-  { path: "/navbar", name: "Navbar", component: NavBar },
-  { path: "/", name: "Home", component: Home }
+  { path: "/test", name: "Test", component: Test }
 ];
 
 export default indexRoutes;

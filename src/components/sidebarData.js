@@ -26,6 +26,7 @@ const styles = theme => ({
     color: "salmon",
   },
   nested: {
+    color: "salmon",
     "&:hover": {
       background: "#00acc1",
     },
@@ -44,7 +45,7 @@ class SidebarItems extends React.Component {
     const menuItems = menuData.map((menuitem) => {
       if(!menuitem.submenu) {
         if(canManage(menuitem.link)) {
-          return <ListItem button className={classes.nested} key={menuitem.id}>
+          return <ListItem button component="a" href={menuitem.link} className={classes.nested} key={menuitem.id}>
             <ListItemIcon className={classes.iconSmall}>
               {menuitem.icon}
             </ListItemIcon>
@@ -67,7 +68,7 @@ class SidebarItems extends React.Component {
               <List component="div" disablePadding>
                 { menuitem.submenu.map((submenuitem) => {
                   if(canManage(submenuitem.link)) {
-                    return <ListItem button className={classes.nested} key={submenuitem.id}>
+                    return <ListItem button component="a" href={submenuitem.link} className={classes.nested} key={submenuitem.id}>
                       <ListItemIcon className={classes.iconSmall}>
                         {submenuitem.icon}
                       </ListItemIcon>

@@ -16,7 +16,7 @@ const menuData = [
     id: 1,
     icon: <DraftsIcon />,
     label: 'draft',
-    link: '/',
+    link: '/test',
   },
   {
     id: 2,

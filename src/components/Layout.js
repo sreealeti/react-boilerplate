@@ -14,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import GridContainer from "material-kit-react/components/Grid/GridContainer";
 
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -103,7 +102,7 @@ const styles = theme => ({
   },
 });
 
-class NavBar extends React.Component {
+class Layout extends React.Component {
   state = {
     open: false,
   };
@@ -189,9 +188,9 @@ class NavBar extends React.Component {
           <div className={classes.toolbar} />
           <SidebarItems />
         </Drawer>
-        <GridContainer justify="center">
-
-        </GridContainer>
+        <div style={{ marginTop: 75, marginLeft: 32, marginRight: 32 }}>
+          {this.props.children}
+        </div>
       </div>
     )
 
@@ -203,7 +202,7 @@ class NavBar extends React.Component {
   }
 }
 
-NavBar.propTypes = {
+Layout.propTypes = {
   classes: PropTypes.object.isRequired,
   logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
@@ -212,4 +211,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, {logoutUser})(withStyles(styles, { withTheme: true })(NavBar));
+export default connect(mapStateToProps, {logoutUser})(withStyles(styles, { withTheme: true })(Layout));
