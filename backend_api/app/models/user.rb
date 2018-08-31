@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
+  has_many :recipes
+
   validates :username, presence: true
   def self.from_token_request request
     username = request.params["auth"] && request.params["auth"]["username"]
