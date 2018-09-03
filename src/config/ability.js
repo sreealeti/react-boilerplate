@@ -5,7 +5,7 @@ export default store => {
     // protected routes
     switch (user.role) {
       case 'admin':
-        return ['/navbar', '/test', '/'];
+        return ['/navbar', '/test', '/recipes', '/'];
       case 'user_manager':
         return ['/users'];
       default:

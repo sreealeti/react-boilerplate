@@ -36,7 +36,6 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    //backgroundColor: "#00acc1",
     backgroundColor: "salmon",
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,

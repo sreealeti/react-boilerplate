@@ -4,13 +4,14 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import StarIcon from '@material-ui/icons/Star';
 import SendIcon from '@material-ui/icons/Send';
+import CakeIcon from '@material-ui/icons/Cake';
 
 const menuData = [
   {
     id: 0,
-    icon: <StarIcon />,
-    label: 'starred',
-    link: '/navbar',
+    icon: <CakeIcon />,
+    label: 'Recipes',
+    link: '/recipes',
   },
   {
     id: 1,
