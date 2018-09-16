@@ -67,6 +67,7 @@ const styles = theme => ({
     backgroundColor: "#2d2d2d",
     boxShadow: "5px 0 10px -2px #888",
     width: drawerWidth,
+    //height: "100%",
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -132,7 +133,7 @@ class Layout extends React.Component {
     const barLinks = (
       <div className={classes.root}>
         <AppBar
-          position="absolute"
+          position="fixed"
           className={classNames(classes.appBar, this.state.open)}
         >
           <Toolbar disableGutters={!this.state.open}>
@@ -187,7 +188,7 @@ class Layout extends React.Component {
           <div className={classes.toolbar} />
           <SidebarItems />
         </Drawer>
-        <div style={{ marginTop: 75, marginLeft: 32, marginRight: 32 }}>
+        <div style={{ marginTop: 75, marginLeft: 32, width: "90%" }}>
           {this.props.children}
         </div>
       </div>
