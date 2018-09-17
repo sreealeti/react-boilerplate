@@ -12,27 +12,7 @@ import Collapse from '@material-ui/core/Collapse';
 
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  iconSmall: {
-    color: "salmon",
-  },
-  itemTextSmall: {
-    color: "salmon",
-  },
-  nested: {
-    color: "salmon",
-    "&:hover": {
-      background: "#00acc1",
-    },
-    paddingLeft: theme.spacing.unit * 4,
-  },
-});
+import SidebarDataStyle from '../styles/sidebarDataStyle'
 
 class SidebarItems extends React.Component {
   state = {open: false};
@@ -97,4 +77,4 @@ SidebarItems.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SidebarItems);
+export default withStyles(SidebarDataStyle)(SidebarItems);

@@ -1,4 +1,4 @@
-import { FETCH_RECIPES, GET_RECIPE, PATCH_RECIPE, DEL_RECIPE } from '../actions/types';
+import { FETCH_RECIPES, GET_RECIPE, ADD_RECIPE, PATCH_RECIPE, DEL_RECIPE } from '../actions/types';
 
 const initialState = {
     recipes: [],
@@ -13,6 +13,11 @@ export default function recipeReducer(state = initialState, action ) {
                 recipes: action.payload
             }
         case GET_RECIPE:
+            return {
+                ...state,
+                recipe: action.payload
+            }
+        case ADD_RECIPE:
             return {
                 ...state,
                 recipe: action.payload

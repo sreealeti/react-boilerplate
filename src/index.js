@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from "history";
-
-import './styles/index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+
+import './styles/index.css';
 
 import Layout from './components/Layout';
 import store from './config/store';

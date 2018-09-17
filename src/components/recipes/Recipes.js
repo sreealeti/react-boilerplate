@@ -39,7 +39,7 @@ class Recipes extends Component {
         <GridList cellHeight={180} >
           { recipes.map((recipe) =>
           <GridListTile key={recipe.id} cols={-1} style={{ height: 'auto' }}>
-            <img src={recipe.photo_small_url} />
+            <img src={'http://ucp01:5000' + recipe.photo_small_url} />
             <GridListTileBar
               title={recipe.title}
               actionIcon={

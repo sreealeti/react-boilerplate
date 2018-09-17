@@ -44,7 +44,7 @@ class RecipeShow extends Component {
   };
   componentWillMount() {
     if (this.props.match.params.id) {
-      const url = `/api/recipes/${this.props.match.params.id}`
+      const url = `http://ucp01:5000/api/recipes/${this.props.match.params.id}`
       this.props.getRecipe(url);
     }
   }
@@ -64,7 +64,7 @@ class RecipeShow extends Component {
               <GridItem xs={12} sm={12} md={6} lg={6}>
           <Paper elevation={1} justify="center">
                 <GridListTile key={recipe.id} cols={-1} style={{ height: 'auto' }}>
-                  <img src={recipe.photo_lg_url} />
+                  <img src={'http://ucp01:5000' + recipe.photo_lg_url} />
                   <GridListTileBar
                     title={recipe.title}
                   />

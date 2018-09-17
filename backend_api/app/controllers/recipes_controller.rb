@@ -4,7 +4,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes
   def index
-    @recipes = current_user.recipes
+    @recipes = Recipe.all
 
     render json: @recipes
   end
@@ -16,7 +16,11 @@ class RecipesController < ApplicationController
 
   # POST /recipes
   def create
-    @recipe = current_user.recipes.build(recipe_params)
+    r = recipe_params.to_h
+    r["directions_attributes"] = JSON.parse(recipe_params[:directions])
+    r["ingredients_attributes"] = JSON.parse(recipe_params[:ingredients])
+    r.except!("directions").except!("ingredients")
+    @recipe = current_user.recipes.build(r)
 
     if @recipe.save
       render json: @recipe, status: :created, location: @recipe
@@ -73,7 +77,7 @@ class RecipesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_recipe
-    @recipe = current_user.recipes.find(params[:id])
+    @recipe = Recipe.find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

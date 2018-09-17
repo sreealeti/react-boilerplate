@@ -14,93 +14,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Hidden from '@material-ui/core/Hidden';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import SidebarItems from './sidebarData';
+import LayoutStyle from './../styles/LayoutStyle';
 
-const drawerWidth = 200;
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-  },
-  button: {
-    margin: theme.spacing.unit,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "salmon",
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  flex: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    zIndex: 1,
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    backgroundColor: "#2d2d2d",
-    boxShadow: "5px 0 10px -2px #888",
-    width: drawerWidth,
-    //height: "100%",
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  iconSmall: {
-    fontSize: 20,
-    marginRight: theme.spacing.unit,
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
-});
 
 class Layout extends React.Component {
   state = {
@@ -146,7 +68,7 @@ class Layout extends React.Component {
               { this.state.open ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex} noWrap>
-              ReactApp
+              aletilabs
             </Typography>
             <div>
               <Button className={classes.button}
@@ -156,7 +78,6 @@ class Layout extends React.Component {
                 color="inherit"
               >
                 <AccountCircle className={classes.iconSmall}/>
-                {user.username}
               </Button>
               <Menu
                 id="menu-appbar"
@@ -178,19 +99,39 @@ class Layout extends React.Component {
             </div>
           </Toolbar>
         </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-          }}
-          open={this.state.open}
-        >
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor={'left'}
+            open={this.state.open}
+            onClose={this.toggleDrawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              KeepMounted: true,
+            }}
+          >
+            <SidebarItems />
+          </Drawer>
+
+        </Hidden>
+        <Hidden smDown>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbar} />
+            <SidebarItems />
+          </Drawer>
+        </Hidden>
+        <main className={classes.content}>
           <div className={classes.toolbar} />
-          <SidebarItems />
-        </Drawer>
-        <div style={{ marginTop: 75, marginLeft: 32, width: "90%" }}>
           {this.props.children}
-        </div>
+        </main>
       </div>
     )
 
@@ -211,4 +152,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, {logoutUser})(withStyles(styles, { withTheme: true })(Layout));
+export default connect(mapStateToProps, {logoutUser})(withStyles(LayoutStyle, { withTheme: true })(Layout));

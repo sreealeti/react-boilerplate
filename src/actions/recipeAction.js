@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FETCH_RECIPES, ADD_RECIPE, GET_RECIPE, PATCH_RECIPE } from './types';
 
 export const getAllRecipes = () => dispatch => {
-  axios.get('/api/recipes')
+  axios.get('http://ucp01:5000/api/recipes')
     .then(res => {
       dispatch({
         type: FETCH_RECIPES,
@@ -27,7 +27,7 @@ export const getRecipe = (url) => dispatch => {
 }
 
 export const patchRecipe = (recipe) => dispatch => {
-  axios.patch('/api/recipes', recipe)
+  axios.patch('http://ucp01:5000/api/recipes', recipe)
     .then(res => {
       console.log(res.data);
       dispatch({
@@ -40,7 +40,7 @@ export const patchRecipe = (recipe) => dispatch => {
     });
 }
 export const delRecipe = (recipe) => dispatch => {
-  axios.post('/api/recipes', recipe)
+  axios.post('http://ucp01:5000/api/recipes', recipe)
     .then(res => {
       console.log(res.data);
       dispatch({
@@ -54,7 +54,7 @@ export const delRecipe = (recipe) => dispatch => {
 }
 
 export const addRecipe = (recipe) => dispatch => {
-  axios.patch('/api/recipes/37', recipe)
+  axios.post('http://ucp01:5000/api/recipes', recipe)
     .then(res => {
       console.log(res.data);
       dispatch({

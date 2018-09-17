@@ -4,7 +4,7 @@ import setAuthToken from '../utilities/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
 export const loginUser = (user) => dispatch => {
-  axios.post('/api/user_token', user)
+  axios.post('http://ucp01:5000/api/user_token', user)
     .then(res => {
       const  token  = res.data.jwt;
       localStorage.setItem('jwtToken', token);
