@@ -16,8 +16,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Icon,
-  IconButton,
   Toolbar
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';

@@ -100,7 +100,6 @@ class RecipeForm extends Component {
 
   }
   renderDirectionForm(){
-    let counter = 0;
     return this.state.recipe.directions_attributes.map((direction, index) => {
       if (direction._destroy === false) {
         let directionDOM = (
@@ -121,7 +120,6 @@ class RecipeForm extends Component {
             </IconButton>
           </div>
         );
-        counter++;
         return directionDOM;
       } else {
         return null;

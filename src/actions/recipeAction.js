@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_RECIPES, ADD_RECIPE, GET_RECIPE, PATCH_RECIPE } from './types';
+import { FETCH_RECIPES, GET_RECIPE, GET_ERRORS } from './types';
 
 export const getAllRecipes = () => dispatch => {
   axios.get('http://ucp01:5000/api/recipes')
