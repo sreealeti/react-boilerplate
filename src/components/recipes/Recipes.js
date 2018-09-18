@@ -6,11 +6,8 @@ import { getAllRecipes } from '../../actions/recipeAction';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Typography from '@material-ui/core/Typography';
 
 import RecipesStyle from '../../styles/RecipesStyle'
 
@@ -36,25 +33,43 @@ class Recipes extends Component {
     return(
       <div className={classes.container}>
         { errors.error ? ( <h4> Cannot load data </h4>) : (
-        <GridList cellHeight={180} >
-          { recipes.map((recipe) =>
-          <GridListTile key={recipe.id} cols={-1} style={{ height: 'auto' }}>
-            <img src={'http://ucp01:5000' + recipe.photo_small_url} />
-            <GridListTileBar
-              title={recipe.title}
-              actionIcon={
-                <IconButton href={ '/recipes/' + recipe.id } className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
+          <div className={classes.root}>
+            { recipes.map((recipe) =>
+              <ButtonBase
+                focusRipple
+                key={recipe.id}
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                href={ '/recipes/' + recipe.id }
+                style={{
+                  width: '200px',
+                }}
+              >
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${recipe.photo_lg_url})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="subheading"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    {recipe.title}
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </ButtonBase>
             )}
-          </GridList>
+          </div>
         ) }
         <Button variant="fab" color="primary" aria-label="Add" href="recipes/new" className={classes.button}>
-        <AddIcon />
-      </Button>
+          <AddIcon />
+        </Button>
       </div>
 
     )

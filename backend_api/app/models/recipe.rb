@@ -1,7 +1,7 @@
 class Recipe < ApplicationRecord
   belongs_to :user
-  has_many :directions
-  has_many :ingredients
+  has_many :directions, dependent: :destroy
+  has_many :ingredients, dependent: :destroy
 
   accepts_nested_attributes_for :ingredients,
     reject_if: proc { |attributes| attributes['name'].blank? },
@@ -36,7 +36,7 @@ class Recipe < ApplicationRecord
       description: description,
       errors: errors,
           photo_small_url: photo.url(:meduim),
-          photo_lg_url: photo.url(:large),
+          photo_lg_url: 'http://ucp01:5000' + photo.url(:large),
           photo_url: photo.url,
           photo_name: photo_file_name,
     }

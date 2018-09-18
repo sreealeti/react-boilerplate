@@ -10,7 +10,10 @@ export const getAllRecipes = () => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 }
 export const getRecipe = (url) => dispatch => {
@@ -22,47 +25,47 @@ export const getRecipe = (url) => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 }
 
-export const patchRecipe = (recipe) => dispatch => {
-  axios.patch('http://ucp01:5000/api/recipes', recipe)
+export const patchRecipe = (url, recipe, history) => dispatch => {
+  axios.patch(url, recipe)
     .then(res => {
-      console.log(res.data);
-      dispatch({
-        type: PATCH_RECIPE,
-        payload: res.data
-      });
+      history.push('/recipes');
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 }
-export const delRecipe = (recipe) => dispatch => {
-  axios.post('http://ucp01:5000/api/recipes', recipe)
+export const delRecipe = (url) => dispatch => {
+  axios.delete(url)
     .then(res => {
       console.log(res.data);
-      dispatch({
-        type: ADD_RECIPE,
-        payload: res.data
-      });
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 }
 
-export const addRecipe = (recipe) => dispatch => {
+export const addRecipe = (recipe, history) => dispatch => {
   axios.post('http://ucp01:5000/api/recipes', recipe)
     .then(res => {
-      console.log(res.data);
-      dispatch({
-        type: ADD_RECIPE,
-        payload: res.data
-      });
+      history.push('/recipes');
     })
     .catch(err => {
-      console.log(err)
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 }

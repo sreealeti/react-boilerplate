@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Login from './Login';
-import { logoutUser } from '../actions/authentication';
+import Login from './../Login';
+import { logoutUser } from '../../actions/authentication';
 
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -21,7 +21,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import SidebarItems from './sidebarData';
-import LayoutStyle from './../styles/LayoutStyle';
+import LayoutStyle from './../../styles/LayoutStyle';
 
 
 class Layout extends React.Component {
@@ -47,7 +47,7 @@ class Layout extends React.Component {
   };
 
   render() {
-    const {isAuthenticated, user} = this.props.auth;
+    const {isAuthenticated} = this.props.auth;
     const { classes } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);

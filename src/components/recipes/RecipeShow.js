@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getRecipe } from '../../actions/recipeAction';
+import { getRecipe, delRecipe } from '../../actions/recipeAction';
+import { BASE_API_URL } from '../../config/constant';
 
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import {
+  Button,
+  Paper,
+  Typography,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Card,
+  CardContent,
+  CardMedia,
+  Icon,
+  IconButton,
+  Toolbar
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import GridContainer from "material-kit-react/components/Grid/GridContainer";
 import GridItem from "material-kit-react/components/Grid/GridItem";
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 
-import RecipesStyle from '../../styles/RecipesStyle'
+import RecipeShowStyle from '../../styles/RecipeShowStyle'
 
 class RecipeShow extends Component {
   emptyIngredient = {
@@ -42,6 +50,15 @@ class RecipeShow extends Component {
     },
     errors: {}
   };
+
+  handleDelSubmit = (e) => {
+    e.preventDefault();
+      const url =  BASE_API_URL + `/recipes/${this.props.match.params.id}`
+    if (window.confirm(`Are you sure you want to delete "${this.state.recipe.title}"`)){
+      this.props.delRecipe(url);
+      this.props.history.push('/recipes');
+    }
+  }
   componentWillMount() {
     if (this.props.match.params.id) {
       const url = `http://ucp01:5000/api/recipes/${this.props.match.params.id}`
@@ -56,26 +73,29 @@ class RecipeShow extends Component {
   render(){
     const { classes } = this.props;
     const { errors, recipe } = this.state;
-    console.log(recipe)
     return(
-      <div className={classes.container}>
+      <div className={classes.root}>
         { errors.error ? ( <h4> Cannot load data </h4>) : (
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={6} lg={6}>
-          <Paper elevation={1} justify="center">
-                <GridListTile key={recipe.id} cols={-1} style={{ height: 'auto' }}>
-                  <img src={'http://ucp01:5000' + recipe.photo_lg_url} />
-                  <GridListTileBar
-                    title={recipe.title}
-                  />
-                </GridListTile>
-                <Typography>
-                  {recipe.description}
-                </Typography>
-            </Paper>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6} lg={6}>
-          <Paper elevation={1} justify="center">
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={12} md={6} lg={6}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.media}
+                  image={'http://ucp01:5000' + recipe.photo_lg_url}
+                  title={recipe.title}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="headline" component="h2">
+                    {recipe.title}
+                  </Typography>
+                  <Typography component="p">
+                    {recipe.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={6} lg={6}>
+              <Paper elevation={1} justify="center">
                 <Typography variant="display1">
                   Ingredients
                 </Typography>
@@ -90,15 +110,35 @@ class RecipeShow extends Component {
                       </TableRow>}) }
                     </TableBody>
                   </Table>
-            </Paper>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={12} lg={12}>
+                </Paper>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12} lg={12}>
+                <Paper elevation={1} justify="center">
+                  <Typography variant="display1">
+                    Directions
+                  </Typography>
+                  <Table className={classes.table} >
+                    <TableBody>
+                      { recipe.directions_attributes.map((direction, index) => {
+                        return <TableRow key={direction.id} >
+                          <TableCell component="th" scope="row" >
+                            {direction.step}
+                          </TableCell>
+                        </TableRow>}) }
+                      </TableBody>
+                    </Table>
+                  </Paper>
                 </GridItem>
               </GridContainer>
         ) }
-        <Button variant="fab" color="primary" aria-label="Edit" href={'/recipes/' + recipe.id + '/edit' } className={classes.button}>
+        <Toolbar className={classes.button}>
+        <Button variant="fab" color="secondary" aria-label="delete" onClick={this.handleDelSubmit}>
+          <DeleteIcon />
+        </Button>
+        <Button variant="fab" color="primary" aria-label="Edit" href={'/recipes/' + recipe.id + '/edit' }>
           <EditIcon />
         </Button>
+      </Toolbar>
       </div>
 
     )
@@ -116,4 +156,4 @@ const mapStateToProps = (state) => ({
   recipe: state.recipes.recipe,
   errors: state.errors
 })
-export default connect(mapStateToProps, { getRecipe })(withStyles(RecipesStyle)(RecipeShow));
+export default connect(mapStateToProps, { getRecipe, delRecipe })(withStyles(RecipeShowStyle)(RecipeShow));

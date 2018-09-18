@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addRecipe, getRecipe } from '../../actions/recipeAction';
+import { addRecipe, getRecipe, patchRecipe } from '../../actions/recipeAction';
+import { BASE_API_URL } from '../../config/constant';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import GridContainer from "material-kit-react/components/Grid/GridContainer";
 import GridItem from "material-kit-react/components/Grid/GridItem";
 import Card from "material-kit-react/components/Card/Card";
 import CardBody from "material-kit-react/components/Card/CardBody";
-import CardHeader from "material-kit-react/components/Card/CardHeader";
 
-import RecipesStyle from '../../styles/RecipesStyle'
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+
+import RecipeFormStyle from '../../styles/RecipeFormStyle'
 
 class RecipeForm extends Component {
   emptyIngredient = {
@@ -42,19 +44,16 @@ class RecipeForm extends Component {
   handleChange = name => e => {
     let { recipe } = this.state;
     recipe[name] = e.target.value;
-    console.log(recipe);
     this.setState({ recipe: recipe });
   };
   handleFileChange = (e) => {
     let { recipe } = this.state;
-    console.log(e.target.files[0])
     recipe["photo"] = e.target.files[0];
     this.setState({recipe: recipe});
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.recipe);
     const formData = new FormData()
     formData.append('recipe[title]', this.state.recipe.title)
     formData.append('recipe[description]', this.state.recipe.description)
@@ -63,7 +62,12 @@ class RecipeForm extends Component {
     }
     formData.append('recipe[ingredients]', JSON.stringify(this.state.recipe.ingredients_attributes))
     formData.append('recipe[directions]', JSON.stringify(this.state.recipe.directions_attributes))
-    this.props.addRecipe(formData);
+    if (this.props.match.params.id) {
+      const url =  BASE_API_URL + `/recipes/${this.props.match.params.id}`
+      this.props.patchRecipe(url, formData, this.props.history);
+    } else {
+      this.props.addRecipe(formData, this.props.history);
+    }
 
   }
   handleAddDirection = (e) => {
@@ -103,15 +107,18 @@ class RecipeForm extends Component {
           <div key={index} >
             <TextField
               required
+              className={this.props.classes.TextField}
               id="step"
               name="step"
               label="step"
+              multiline={true}
+              rows={2}
               value={direction.step}
               onChange={this.onDirectionStepChange(direction)}
             />
-            <Button variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleRemoveNestedData(direction)}>
-              Delete Direction
-            </Button>
+            <IconButton variant="contained" size="small" color="secondary" aria-label="Delete" onClick={this.handleRemoveNestedData(direction)}>
+              <Icon>delete</Icon>
+            </IconButton>
           </div>
         );
         counter++;
@@ -122,7 +129,6 @@ class RecipeForm extends Component {
     });
   }
   renderIngredientForm(){
-    let counter = 0;
     return this.state.recipe.ingredients_attributes.map((ingredient, index) => {
       if (ingredient._destroy === false) {
         let ingredientDOM = (
@@ -137,18 +143,18 @@ class RecipeForm extends Component {
             />
             <TextField
               required
+              className={this.props.classes.TextField}
               id="quantity"
               name="quantity"
               label="quantity"
               value={ingredient.quantity}
               onChange={this.onIngredientquantityChange(ingredient)}
             />
-            <Button variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleRemoveNestedData(ingredient)}>
-              Delete Ingredient
-            </Button>
+            <IconButton variant="contained" size="small" color="secondary" aria-label="Delete" onClick={this.handleRemoveNestedData(ingredient)}>
+              <Icon>delete</Icon>
+            </IconButton>
           </div>
         );
-        counter++;
         return ingredientDOM;
       } else {
         return null;
@@ -159,7 +165,7 @@ class RecipeForm extends Component {
 
   componentWillMount() {
     if (this.props.match.params.id) {
-      const url = `/api/recipes/${this.props.match.params.id}`
+      const url =  BASE_API_URL + `/recipes/${this.props.match.params.id}`
       this.props.getRecipe(url);
     }
   }
@@ -172,8 +178,7 @@ class RecipeForm extends Component {
 
   render(){
     const { classes } = this.props;
-    const { errors, recipe } = this.state;
-    console.log(recipe)
+    const { recipe } = this.state;
     return(
       <div>
         <Card className={classes.card}>
@@ -204,29 +209,29 @@ class RecipeForm extends Component {
                 <input
                   accept="image/*"
                   className={classes.input}
-                  id="flat-button-file"
+                  id="icon-button-file"
                   type="file"
                   onChange={this.handleFileChange}
                 />
-                <label htmlFor="flat-button-file">
-                  <Button component="span" color="primary">
-                    Upload
-                  </Button>
+                <label htmlFor="icon-button-file">
+                  <IconButton component="span" color="primary">
+                    <Icon>photo_camera</Icon>
+                  </IconButton>
                 </label>
               </GridItem>
               <GridItem xs={12} sm={4} md={4}>
-                <Typography>Directions</Typography>
+                <div className={classes.headview}>{"Directions"}</div>
                 {this.renderDirectionForm()}
-                <Button variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleAddDirection}>
-                  Add Direction
-                </Button>
+                <IconButton variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleAddDirection}>
+                  <Icon>add_circle</Icon>
+                </IconButton>
               </GridItem>
               <GridItem xs={12} sm={12} md={12} lg={12}>
-                <Typography>Ingredients</Typography>
+                <div className={classes.headview}>{"Ingredients"}</div>
                 {this.renderIngredientForm()}
-                <Button variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleAddIngredient}>
-                  Add Ingredient
-                </Button>
+                <IconButton variant="contained" size="small" color="primary" aria-label="Add" onClick={this.handleAddIngredient}>
+                  <Icon>add_circle</Icon>
+                </IconButton>
 
               </GridItem>
               <Button variant="contained" color="primary" aria-label="Add" onClick={this.handleSubmit}>
@@ -245,6 +250,7 @@ RecipeForm.propTypes = {
   classes: PropTypes.object.isRequired,
   addRecipe: PropTypes.func.isRequired,
   getRecipe: PropTypes.func.isRequired,
+  patchRecipe: PropTypes.func.isRequired,
   recipe: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -252,4 +258,4 @@ const mapStateToProps = (state) => ({
   recipe: state.recipes.recipe,
   errors: state.errors
 })
-export default connect(mapStateToProps, { addRecipe, getRecipe })(withStyles(RecipesStyle)(RecipeForm));
+export default connect(mapStateToProps, { addRecipe, getRecipe, patchRecipe })(withStyles(RecipeFormStyle)(RecipeForm));

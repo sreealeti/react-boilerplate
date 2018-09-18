@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import menuData from './../config/menu';
+import menuData from './../../config/menu';
 import { canManage } from 'redux-cancan';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import Collapse from '@material-ui/core/Collapse';
 
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import SidebarDataStyle from '../styles/sidebarDataStyle'
+import SidebarDataStyle from '../../styles/sidebarDataStyle'
 
 class SidebarItems extends React.Component {
   state = {open: false};

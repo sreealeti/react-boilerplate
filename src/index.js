@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import './styles/index.css';
 
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 import store from './config/store';
 import indexRoutes from "./routes/index";
 import jwt_decode from 'jwt-decode';
